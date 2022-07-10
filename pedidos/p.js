@@ -41,6 +41,8 @@ function proximoPedido() {
         $("#txt_obs").textbox("setValue",data[0].obs);
         $("#txt_taxa").numberbox("setValue",data[0].taxa);
         $("#totalPedido").html("R$"+data[0].total);
+        $("#troco").html("R$"+data[0].troco);
+        $("#txt_valor_pago").numberbox("setValue",data[0].valorPago);
         $("#cbx_pagamento").combobox("setValue",data[0].pagamento);
         
         $("#itensPedido").datagrid({
@@ -236,4 +238,16 @@ function atualizaTotal() {
 function impressao(value, row, index){
     var imp = '<a class="btn-datagrid" id_datagrid="#pedidos" href="pedidos/impressao.php?p='+row.id+'" target="_blank">Imprimir</a>';
     return imp;
+}
+
+function salvaValorPago(newV, oldV) {
+    salvaValorPagoPedido(newV);
+}
+
+function salvaValorPagoPedido(valorPago) {
+    $.post(caminhoe, {op: 'g',action:'salvaValorPagoPedido',valorPago:valorPago,id:$("#idPedido").val()}, function(dados, textStatus, xhr) {
+        var data = JSON.parse(dados);
+        msgNoty("Valor Pago Salvo!", "success", "", 8000);
+        $("#troco").html("Troco: "+data.troco)
+    });
 }

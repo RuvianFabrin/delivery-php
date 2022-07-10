@@ -154,12 +154,12 @@ $itens = ($s->execute()) ?$s->fetchAll(PDO::FETCH_ASSOC): array();
                     <tr>
                         <td class="corpoL" style="width: 40mm;">Pagamento</td>
                         <td class="corpoR" style="width: 20mm;">Dinheiro</td>
-                        <td class="corpoR" style="width: 20mm;">70,00</td>
+                        <td class="corpoR" style="width: 20mm;"><?=number_format($rowPedido[0]["p_valor_pago"], 2, ',', ' ')?></td>
                     </tr>
                     <tr>
                         <td class="corpoL" style="width: 40mm;"></td>
                         <td class="corpoR" style="width: 20mm;">Troco</td>
-                        <td class="corpoR" style="width: 20mm;">Fazer</td>
+                        <td class="corpoR" style="width: 20mm;"><?=number_format($rowPedido[0]["p_troco"], 2, ',', ' ')?></td>
                     </tr>
                 </table>
             </td>

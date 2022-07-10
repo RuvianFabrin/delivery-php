@@ -75,9 +75,15 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-1" style="padding-top: 25px;">
+      <div class="col-2" style="padding-top: 25px;">
           <h3 id="totalPedido">0,00</h3>
-      </div>               
+      </div>  
+      <div class="col-2">
+        <input class="easyui-numberbox" name="txt_valor_pago" id="txt_valor_pago" label="Valor Pago:" labelPosition="top" data-options="valueField: 'id',textField: 'text',min:0,precision:2,groupSeparator:' ',decimalSeparator:',',onChange:salvaValorPago" style="width:100%;" />
+      </div> 
+      <div class="col-2" style="padding-top: 25px;">
+          <h3 id="troco">Troco: 0,00</h3>
+      </div>      
   </div>
     <div class="row">
         <div class="col-1" style="padding-top: 25px;">

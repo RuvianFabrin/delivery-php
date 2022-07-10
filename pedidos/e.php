@@ -68,6 +68,8 @@ class Pedido{
                     , p_taxa_entrega taxa
                     ,  p_obs_pedido obs                  
                     ,  p_id_pagamento pagamento                  
+                    ,  p_valor_pago valorPago                  
+                    ,  p_troco troco                  
                     FROM   pedido 
                     WHERE  p_status='Aberto' order by p_id desc";   
         
@@ -396,4 +398,39 @@ class Pedido{
         return ($statement->execute()) ? array('r' => "ok"): array('r' => "erro", );//Update ou delete
         
     }
+
+    public function salvaValorPagoPedido(){
+        $pedido = $this->pedidoFull($_REQUEST["id"]);
+        $total = $pedido[0]["p_total_pedido"];
+        $valorPago = $_REQUEST["valorPago"];
+        $troco = $valorPago-$total;
+
+        $obj = new db();
+        $sql="update pedido set 
+        p_valor_pago= :valor_pago,        
+        p_troco= :troco        
+        where 
+        p_id= :id"; 
+        $statement = $obj->sq($sql);
+        $statement->bindValue(":valor_pago",$valorPago);
+        $statement->bindValue(":troco",$troco);
+        $statement->bindValue(":id",$_REQUEST["id"]);
+        
+        return ($statement->execute()) ? array('r' => "ok",'troco'=>number_format($troco, 2, ',', ' ')): array('r' => "erro", );//Update ou delete
+        
+    }
+    function pedidoFull($idPedido){
+        //Pedido que não é mostrado para o usuario
+        $obj = new db();
+        $p["sql"]="SELECT *                  
+                    FROM   pedido 
+                    WHERE  p_id= :idPedido order by p_id desc";   
+        
+        $p["idPedido"] = $idPedido;
+        $s = $obj->run($p);
+        $retorno = ($s->execute()) ?$s->fetchAll(PDO::FETCH_ASSOC): array();//Select
+
+    
+        return $retorno;
+    } 
 }
